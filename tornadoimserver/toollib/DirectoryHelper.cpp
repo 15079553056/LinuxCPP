@@ -1,4 +1,5 @@
 #include "DirectoryHelper.h"
+#include <string.h>
 
 #ifdef _WIN32
 #include <io.h>
@@ -22,6 +23,7 @@
 std::mutex CDirectoryHelper::m_mutexCreateDir;
 
 /*
+* Using Platform: Windows Linux
 * Description: 创建目录(多级创建)
 * In Param strDirPath: 目录路径
 * Return: -1    创建失败
@@ -46,7 +48,7 @@ int32_t CDirectoryHelper::DirCreate(const std::string& strDirPath)
     for(size_t i=0;i<dirPathLen;i++)
     {
         tmpDirPath[i]=strDirPath[i];
-        if(tmpDirPath[i]=='\\' || tmpDirPath[i]=='/')
+        if(tmpDirPath[i]=='\\' || tmpDirPath[i]=='/' || i==(dirPathLen-1))
         {
             if(ACCESS(tmpDirPath,0)!=0)
             {
@@ -63,6 +65,7 @@ int32_t CDirectoryHelper::DirCreate(const std::string& strDirPath)
 }
 
 /**
+* Using Platform: Windows Linux
 * Description: 目录是否存在
 * In Param strDirPath: 文件目录
 * return: 
@@ -80,8 +83,22 @@ bool CDirectoryHelper::DirIsExist(const std::string& strDirPath)
 
 }
 
-
-
+/*
+* Using Platform: Windows未验证 Linux
+* Description: 获取当前目录
+*
+*/
+char* CDirectoryHelper::GetCurrentDir(char* pszDir,int32_t nLen)
+{
+    char buf[MAX_PATH_LEN]={0};
+    getcwd(buf,sizeof(buf));
+    if(pszDir)
+    {
+       strncpy(pszDir,buf,nLen);
+       pszDir[nLen-1]='\0';
+    }
+    return pszDir;
+}
 
 
 

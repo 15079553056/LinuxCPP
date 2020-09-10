@@ -11,7 +11,8 @@ public:
     static bool DirIsExist(const std::string& strDirPath);
     //创建目录(多级创建)
     static int32_t DirCreate(const std::string& strDirPath);
-
+    //获取当前路径
+    static char* GetCurrentDir(char* pszDir,int32_t nLen);
 private:
     //禁止构造函数
     CDirectoryHelper();
