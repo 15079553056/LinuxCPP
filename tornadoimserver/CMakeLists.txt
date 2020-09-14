@@ -15,6 +15,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -std=c++11 -O0 -g")
 set(toollib_srcs
     ./toollib/DirectoryHelper.cpp
     ./toollib/Md5Helper.cpp
+    ./toollib/StringHelper.cpp
     )
 
 set(chatserver_srcs
