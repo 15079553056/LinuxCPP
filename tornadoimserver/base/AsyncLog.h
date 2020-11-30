@@ -2,7 +2,7 @@
 #define ASYNCLOG_H
 
 #include <stdio.h>
-#include <deque>
+#include <list>
 #include <string>
 #include <thread>
 #include <mutex>
@@ -25,13 +25,13 @@ enum LOG_LEVEL
 };
 
 // 使用几个调试宏 (1)__FUNCTION__: 函数名  (2)__TIME__: 运行时间 (3)__LINE__:所在行数 (4)__FILE__: 文件路径，包含文件名
-#define LOGT(pszLogMsg)     CAsyncLog::write(LOG_LEVEL_TRACE,__FILE__,__LINE__,const char* pszLogMsg)
-#define LOGD(pszLogMsg)     CAsyncLog::write(LOG_LEVEL_TRACE,__FILE__,__LINE__,const char* pszLogMsg)
-#define LOGI(pszLogMsg)     CAsyncLog::write(LOG_LEVEL_TRACE,__FILE__,__LINE__,const char* pszLogMsg)
-#define LOGW(pszLogMsg)     CAsyncLog::write(LOG_LEVEL_TRACE,__FILE__,__LINE__,const char* pszLogMsg)
-#define LOGE(pszLogMsg)     CAsyncLog::write(LOG_LEVEL_TRACE,__FILE__,__LINE__,const char* pszLogMsg)
-#define LOGSYSE(pszLogMsg)  CAsyncLog::write(LOG_LEVEL_TRACE,__FILE__,__LINE__,const char* pszLogMsg)
-#define LOGF(pszLogMsg)     CAsyncLog::write(LOG_LEVEL_TRACE,__FILE__,__LINE__,const char* pszLogMsg)
+#define LOGT(pszLogMsg)     CAsyncLog::write(LOG_LEVEL_TRACE,__FILE__,__FUNCTION__,__LINE__,const char* pszLogMsg)
+#define LOGD(pszLogMsg)     CAsyncLog::write(LOG_LEVEL_TRACE,__FILE__,__FUNCTION__,__LINE__,const char* pszLogMsg)
+#define LOGI(pszLogMsg)     CAsyncLog::write(LOG_LEVEL_TRACE,__FILE__,__FUNCTION__,__LINE__,const char* pszLogMsg)
+#define LOGW(pszLogMsg)     CAsyncLog::write(LOG_LEVEL_TRACE,__FILE__,__FUNCTION__,__LINE__,const char* pszLogMsg)
+#define LOGE(pszLogMsg)     CAsyncLog::write(LOG_LEVEL_TRACE,__FILE__,__FUNCTION__,__LINE__,const char* pszLogMsg)
+#define LOGSYSE(pszLogMsg)  CAsyncLog::write(LOG_LEVEL_TRACE,__FILE__,__FUNCTION__,__LINE__,const char* pszLogMsg)
+#define LOGF(pszLogMsg)     CAsyncLog::write(LOG_LEVEL_TRACE,__FILE__,__FUNCTION__,__LINE__,const char* pszLogMsg)
 
 class CAsyncLog
 {
@@ -42,7 +42,10 @@ public:
     static void uninit();
 
     //输出线程ID号和所在函数签名、行号
-    static bool write(short nLevel,const char* pszFileName,int nLineNo,const char* pszLogMsg);
+    static bool write(short nLevel,const char* pszFileName,const char* pszFuncName,int nLineNo,const char* pszLogMsg);
+
+    //写日志线程方法
+    static void writeThreadProc();
 
 private:
     CAsyncLog()=delete;
@@ -56,8 +59,8 @@ private:
     static std::unique_ptr<std::thread>             m_spWriteThread;                //写入日志的线程
     static std::mutex                               m_mutexWrite;                   //写日志锁
     static std::condition_variable                  m_cvWrite;                      //写条件变量
-
-
+    static std::string                              m_strPID;                       //进程ID
+    static std::list<std::string>                   m_listLinesToWrite;             //待写入的日志列表
     
 
 };
