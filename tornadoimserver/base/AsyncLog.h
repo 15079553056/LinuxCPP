@@ -42,7 +42,7 @@ public:
     static void uninit();
 
     //输出线程ID号和所在函数签名、行号
-    static bool write(short nLevel,const char* pszFileName,const char* pszFuncName,int nLineNo,const char* pszLogMsg);
+    static void write(short nLevel,const char* pszFileName,const char* pszFuncName,int nLineNo,const char* pszLogMsg);
 
     //写日志线程方法
     static void writeThreadProc();

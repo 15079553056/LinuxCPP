@@ -12,7 +12,7 @@ class CTimeHelper
 
 public:
     //获取当前时间，字符串类型
-    std::string& getCurrentTime(std::string& strTime);
+    static std::string& getCurrentTime(std::string& strTime);
     //获取当前时间戳，秒级别
 
     //获取当前时间戳，毫秒级别
