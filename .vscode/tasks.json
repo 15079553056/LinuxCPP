@@ -1,0 +1,11 @@
+{
+	"version": "2.0.0",
+	"tasks":
+	[
+		{
+			"label": "rebuild",  //任务的名字，注意是区分大小写的，等会在launch.json中调用
+			"type": "shell",  //任务的执行是shell命令，也可以是其它命令
+			"command": "cd build; rm -rf *; cmake ..; make",  //需要执行的命令
+		}
+	]
+}

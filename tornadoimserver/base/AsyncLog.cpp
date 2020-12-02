@@ -1,8 +1,9 @@
 #include "AsyncLog.h"
-#include <iostream>
 #include "../toollib/DirectoryHelper.h"
 #include "../toollib/TimeHelper.h"
 
+#include <iostream>
+#include <unistd.h>
 
 bool CAsyncLog::init(const char* pszLogFileName)
 {
@@ -11,7 +12,7 @@ bool CAsyncLog::init(const char* pszLogFileName)
 #ifdef WIN32
     snprintf(szPID, sizeof(szPID), "%05d", (int)::GetCurrentProcessId());
 #else
-    snprintf(szPID,sizeof("%05d"),(int)::getpid());
+    snprintf(szPID,sizeof(szPID),"%05d",(int)::getpid());
 #endif
 
     m_strPID=szPID;
@@ -24,9 +25,11 @@ bool CAsyncLog::init(const char* pszLogFileName)
 
 void CAsyncLog::uninit()
 {
-
     //回收线程所占用的资源
-    
+    if(m_spWriteThread->joinable())
+    {
+        m_spWriteThread->join();
+    }
 
 }
 

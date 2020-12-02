@@ -1,28 +1,28 @@
 {
-    // 使用 IntelliSense 了解相关属性。 
-    // 悬停以查看现有属性的描述。
-    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        
-        {
-            "name": "(gdb) 启动",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "输入程序名称，例如 ${workspaceFolder}/a.out",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "gdb",
-            "setupCommands": [
+	"version": "2.0.0",
+	"configurations": 
+	[
+		{
+			"name": "cmake 生成和调试",  //对应 vscode 运行下拉选项
+			"preLaunchTask": "rebuild",  //对应 tasks.json 中 tasks 下的 label 名
+			"program": "${workspaceFolder}/build/Demo", //运行当前工作空间下build文件夹下的Demo程序
+			"miDebuggerPath": "/usr/bin/gdb",
+			"type": "cppdbg",
+			"externalConsole": false,  //是否使用外部控制台
+			"request": "launch",
+			"args": [],
+			"stopAtEntry": false,
+			"cwd": "${workspaceFolder}",  //当前工作路径：当前文件所在的工作空间
+			"environment": [],
+			"MIMode": "gdb",
+			"setupCommands": 
+			[
                 {
                     "description": "为 gdb 启用整齐打印",
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
             ]
-        }
-    ]
+		}
+	]
 }
